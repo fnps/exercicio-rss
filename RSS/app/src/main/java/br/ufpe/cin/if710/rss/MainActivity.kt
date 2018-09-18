@@ -20,14 +20,6 @@ import java.net.URL
 
 open class MainActivity : Activity() {
 
-    //ao fazer envio da resolucao, use este link no seu codigo!
-    private val RSS_FEED = "http://pox.globo.com/rss/g1/brasil/"
-
-    //http://rss.cnn.com/rss/edition.rss
-    //http://pox.globo.com/rss/g1/brasil/
-    //http://pox.globo.com/rss/g1/ciencia-e-saude/
-    //http://pox.globo.com/rss/g1/tecnologia/
-
     private val parser = ParserRSS
     private var conteudoRSS: RecyclerView ?= null
     private var viewAdapter: RssAdapter ?= null
@@ -55,7 +47,7 @@ open class MainActivity : Activity() {
         try {
             //tarefa fora da ui thread para evitar bloqueio
             doAsync {
-                val str = getRssFeed(RSS_FEED)
+                val str = getRssFeed(resources.getText(R.string.rssfeed) as String)
                 val list = parser.parse(str)
                 uiThread {
                     //assim que termina o download a view é populada
@@ -141,7 +133,7 @@ open class MainActivity : Activity() {
         return rssFeed
     }
 
-    //metodos disponibilizados em sala foram usados por conveniencia 
+    //metodos disponibilizados em sala foram usados por conveniencia
     private var metodosCallback: SortedList.Callback<ItemRSS> = object : SortedList.Callback<ItemRSS>() {
         override fun compare(o1: ItemRSS, o2: ItemRSS): Int {
             return o1.title.compareTo(o2.title)
